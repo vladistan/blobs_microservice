@@ -1,0 +1,7 @@
+api/junit-regression.xml
+api/junit-py27.xml
+api/htmlcov
+api/blob_api.egg-info
+api/.coverage
+api/.cache
+store/5b

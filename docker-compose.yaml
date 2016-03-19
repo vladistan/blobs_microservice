@@ -11,6 +11,19 @@ services:
             - ./store:/store:ro
             - ./static:/usr/share/nginx/html:ro
     api:
-        image: nginx
+        build:
+            context: ./api
+        ports:
+            - 5000:5000
+        depends_on:
+             - redis
+        volumes:
+            - ./api:/code
+            - ./store:/store:rw
     redis:
-        image: nginx
+        image: redis
+        volumes:
+            - svc_data:/data
+            
+volumes:
+    svc_data:

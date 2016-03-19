@@ -1,0 +1,13 @@
+[run]
+source = blob_api
+branch = True
+omit = py27,*/.cache/*.py,*/pkg/bench/*,*/pkg/wsgi.py
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain if non-runnable code isn't run
+    if __name__ == .__main__.:
