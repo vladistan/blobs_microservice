@@ -1,0 +1,16 @@
+---
+version: '2'
+services:
+    web:
+        image: nginx
+        ports:
+            - 8080:80
+        volumes:
+            - ./conf.d:/etc/nginx/conf.d:ro
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./store:/store:ro
+            - ./static:/usr/share/nginx/html:ro
+    api:
+        image: nginx
+    redis:
+        image: nginx
