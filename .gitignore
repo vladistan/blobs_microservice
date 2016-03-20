@@ -4,4 +4,6 @@ api/htmlcov
 api/blob_api.egg-info
 api/.coverage
 api/.cache
-store/5b
+store/
+redis_data
+data
