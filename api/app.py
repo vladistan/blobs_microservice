@@ -18,12 +18,26 @@ def hello():
     redis.incr('hits')
     return 'This was called %s times.' % redis.get('hits')
 
+@app.route('/blob/v1/exist/<url>', methods = ['GET'])
+@app.route('/blob/v1/exist/<url>/<idx>',  methods = ['GET'])
+def obj_exist(url, idx='1'):
+    url = url.encode('ascii')
+    ln = len(url) % 4
+    if ln != 0:
+        url += (4 - ln) * '='
+    if redis.exists(url) == 1:
+        return "True"
+    else:
+        return "False"
 
 @app.route('/blob/v1/obj/<url>', methods=['GET', 'POST'])
 @app.route('/blob/v1/obj/<url>/<idx>', methods=['GET', 'POST'])
 def get_obj(url, idx='1'):
-    d_url = base64.b64decode(url)
-    app.logger.debug('URL ' + d_url + " IDX " + idx)
+    url = url.encode('ascii')
+    ln = len(url) % 4
+    if ln != 0:
+        url += (4 - ln) * '='
+    d_url = base64.b64decode(url, '-_')
     app.logger.debug('Request method ' + request.method)
 
     if request.method == 'GET':
