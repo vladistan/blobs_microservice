@@ -10,7 +10,7 @@ import base64
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 
-base_url = "http://172.16.2.170:8080"
+base_url = "http://192.168.15.198:8080"
 
 
 @app.route('/blob/v1/count')
@@ -41,6 +41,7 @@ def get_obj(url, idx='1'):
     app.logger.debug('Request method ' + request.method)
 
     if request.method == 'GET':
+        app.logger.debug('Obj URL' + url)
         obj_location = redis.get(url)
         if obj_location is None:
             return redirect(d_url, 302)
@@ -56,6 +57,8 @@ def get_obj(url, idx='1'):
 
 def accept_incoming_file(url):
     files = request.files.items()
+    app.logger.debug('File :' + str(files))
+
     for name, file in files:
         app.logger.debug('File :' + name)
 
@@ -74,6 +77,7 @@ def accept_incoming_file(url):
         app.logger.debug('Dest file :' + dest_file)
 
         os.rename(tmpname, dest_file)
+        os.chmod(dest_file, 0666 )
         redis.set(url, dest_file)
 
 
